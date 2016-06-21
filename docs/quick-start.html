@@ -79,6 +79,7 @@
 <li>WordPress package (optional) By explicitly requiring WordPress package is possible to choose WP version to install (min version is WP 3.9+)</li>
 <li>Any desired theme and plugin (optional)</li>
 <li>WP Starter configuration in <code>"extra"</code> setting (optional)</li>
+<li>Installation paths for WordPress core and components (themes/plugins)</li>
 </ul>
 <h1 id="a-simple">A simple <code>composer.json</code></h1>
 <pre><code class="language-json">{
@@ -96,20 +97,26 @@
         "wpackagist-plugin/wp-super-cache": "*"
     },
     "config": {
-        "vendor-dir": "wp-content/vendor"
+        "vendor-dir": "public/wp-content/vendor"
     },
     "scripts": {
         "post-install-cmd": "WCM\\WPStarter\\Setup::run",
         "post-update-cmd": "WCM\\WPStarter\\Setup::run"
     },
     "extra": {
-        "wordpress-install-dir": "wp"
+        "wordpress-install-dir": "public/wp"
+        "wordpress-content-dir": "public/wp-content",
+        "installer-paths": {
+			"public/wp-content/themes": [ "type:wordpress-theme" ],
+			"public/wp-content/plugins": [ "type:wordpress-plugin" ]
     }
 }</code></pre>
 <p>This is a minimal example, but is possible to add any plugin or theme.</p>
 <p>For plugins and themes that support Composer natively, it is possible to just add their package name to the require object.</p>
 <p>For plugins and themes that do not support Composer natively, but are available in WordPress repository (like WP Super Cache in the example) is possible to use packages provided by <a href="https://wpackagist.org">wpackagist</a>. To do that, wpackagist has to be added to <code>"repositories"</code> setting as shown above.</p>
 <p>The <code>config.vendor-dir</code> setting is optional. In the example above is used to have the vendor folder placed inside <code>wp-content</code> folder so that at the end of the installation the folder structure will be something like:</p>
+<ul>
+<li><code>public/</code>
 <ul>
 <li><code>wp/</code>
 <ul>
@@ -126,12 +133,16 @@
 <li><code>plugins/</code></li>
 <li><code>vendor/</code></li>
 </ul></li>
-<li><code>wp-config.php</code></li>
 <li><code>index.php</code></li>
+<li><code>wp-config.php</code></li>
+</ul>
+</li>
 <li><code>.env.example</code></li>
 <li><code>.gitignore</code></li>
 </ul>
 <p><em>(some files in wp folder have been omitted for sake of readability)</em></p>
+<h3><code>public/</code> and web root</h3>
+<p>The folder <code>public/</code> is considered the web-root in this example. That means that your web server has to be configured to serve files from this folder as root. (The <code>DocumentRoot</code> directive in Apache.)</code> This protects the <code>.env</code> file from being exposed to the public. However, it's possible to configure WP Starter to install everything in the main repository folder, but remember to restrict access to the <code>.env</code> file in your server configuration (via <code>.htaccess</code> for example) then.</p>
 <h2 id="theres-more">There's More</h2>
 <p>The example in this page shows how simple is to get started with WP Starter. However, by using both general Composer settings and WP Starter specific settings is possible to do more with WP Starter and also to control and customize any aspect of WP Starter flow.</p>
 <p>The <strong><em>&quot;Complete Usage Example&quot;</em></strong> doc page contains a <code>composer.json</code> example code that uses all WP Starter power by making use of all the configurations available.</p>
