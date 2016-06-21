@@ -101,7 +101,7 @@ all WP Starter configuration. Explanation is provided below in this page.</p>
         "gmazzap/plugin-profiler-mu": "*"
     },
     "config": {
-        "vendor-dir": "public/content/vendor",
+        "vendor-dir": "vendor",
         "optimize-autoloader": true
     },
     "scripts": {
@@ -178,7 +178,7 @@ all WP Starter configuration. Explanation is provided below in this page.</p>
 <p>This MU plugin will be placed in its own folder inside <code>mu-plugin</code> folder, but WordPress will be still capable to load thanks to WP Starter loader.</p>
 <h3><code>"config"</code> section</h3>
 <p>This is a <a href="https://getcomposer.org/doc/04-schema.html#config">Composer setting</a>.</p>
-<p>In the example above it is used to tell Composer to create optimized autoloader files and to use a specific vendor folder.</p>
+<p>In the example above it is used to tell Composer to create optimized autoloader files. The vendor folder is set to its default value <code>vendor</code> (basically this setting can be omited). In case you want to use packages of type <code>library</code> that provides assets like JavaScript or CSS files, the vendor folder has to be configured to be below the web root. In this example that would be <code>"vendor-dir":"public/content/vendor"</code>. (Remember, packages of type <code>wordpress-*</code> are installed inside the public folder anyway.)</p>
 <h3><code>"scripts"</code> section</h3>
 <p>The first entry in this section adds the method <code>WCM\WPStarter\Setup::run()</code> as <code>"post-install-cmd"</code> script. (See <a href="https://getcomposer.org/doc/articles/scripts.html">Composer docs</a>). This is the only mandatory entry.</p>
 <p>The second entry adds the same method as <code>"post-update-cmd"</code> script. This makes Composer to run again WP Starter routine after any update. The reason is that files copied by WP Starter via &quot;dropins&quot; configuration (see below) may be updated, so the updated file should be copied again in content folder.</p>
